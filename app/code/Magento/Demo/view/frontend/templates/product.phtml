@@ -1,0 +1,14 @@
+<?php
+$productId = 2087;
+
+$product = $block->getProductByIdFromRegistry($productId);
+$imageUrl = $block->getProductImage($product);
+?>
+
+<h1 class="text-center"><b>PRODUCT DETAILS</b></h1>
+<div>
+    <h2><b>Product Name :</b> <?php echo $product->getName(); ?></h2>
+    <h2><b>Product Price :</b> $<?php echo $product->getPrice(); ?></h2>
+    <h2><b>Product Description :</b> <?php echo $product->getDescription(); ?></h2>
+    <img src="<?php echo $imageUrl; ?>" alt="<?php echo $product->getName(); ?>" />
+</div>

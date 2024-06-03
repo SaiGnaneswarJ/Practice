@@ -1,0 +1,7 @@
+.admin__menu .level-0.item-view > a:before {
+    content: '';
+    background-image: url("../images/icon1.png");
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+}

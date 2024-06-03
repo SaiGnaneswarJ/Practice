@@ -1,0 +1,39 @@
+<?php
+namespace Kensium\Integration\Setup;
+
+use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\Setup\ModuleDataSetupInterface;
+use Magento\Framework\Setup\InstallDataInterface;
+use Magento\Integration\Model\ConfigBasedIntegrationManager;
+
+class InstallData implements InstallDataInterface
+{
+    /**
+     * @var ConfigBasedIntegrationManager
+     */
+    private $integrationManager;
+
+    /**
+     * @param ConfigBasedIntegrationManager $integrationManager
+     */
+    public function __construct(ConfigBasedIntegrationManager $integrationManager)
+    {
+        $this->integrationManager = $integrationManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    {
+        $setup->startSetup();
+
+        // Perform your setup tasks here
+        $this->integrationManager->processIntegrationConfig([
+            'Integration1',
+            'Integration2',
+        ]);
+
+        $setup->endSetup();
+    }
+}

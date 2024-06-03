@@ -1,0 +1,61 @@
+<h1 style="text-align: center"><b>Get Parent Product of Bundle and Grouped Products</b></h1>
+
+<div class="product-grid">
+    <?php
+    $helper = $this->helper('Kensium\File\Helper\Data');
+    $childProductId = 33;
+
+    // Get parent bundle product
+    $parentBundle = $helper->getBundleParentProduct($childProductId);
+    if ($parentBundle) {
+        echo '<div class="product-item">';
+        echo '<div>';
+        echo '<h3><b>Bundle</b></h3>';
+        echo '<h5>Product Id: '  . $parentBundle->getId() . '</h5>';
+        echo '<a href="' . $parentBundle->getProductUrl() . '">';
+        echo '<img style="height:200px;width:200px" src="' . $this->getUrl('pub/media/catalog') . 'product/' . $parentBundle->getImage() . '" alt="' . $parentBundle->getName() . '">';
+        echo '</a>';
+        echo '<h5>' . $parentBundle->getName() . '</h5>';
+        echo '<h5>' . $parentBundle->getSku() . '</h5>';
+        echo '</div>';
+        echo '</div>';
+    } else {
+        echo '<div class="product-item">';
+        echo '<p class="no-product">No parent bundle product found.</p>';
+        echo '</div>';
+    }
+
+    // Get parent grouped product
+    $parentGroup = $helper->getGroupParentProduct($childProductId);
+    if ($parentGroup) {
+        echo '<div class="product-item">';
+        echo '<div>';
+        echo '<h3><b>Grouped</b></h3>';
+        echo '<h5>Product Id: '  . $parentGroup->getId() . '</h5>';
+        echo '<a href="' . $parentGroup->getProductUrl() . '">';
+        echo '<img style="height:200px;width:200px" src="' . $this->getUrl('pub/media/catalog') . 'product/' . $parentGroup->getImage() . '" alt="' . $parentGroup->getName() . '">';
+        echo '</a>';
+        echo '<h5>' . $parentGroup->getName() . '</h5>';
+        echo '<h5>' . $parentGroup->getSku() . '</h5>';
+        echo '</div>';
+        echo '</div>';
+    } else {
+        echo '<div class="product-item">';
+        echo '<p class="no-product">No parent group product found.</p>';
+        echo '</div>';
+    }
+    ?>
+</div>
+
+<style>
+    .product-grid {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .product-item {
+        flex: 0 0 calc(50% - 10px);
+    }
+</style>

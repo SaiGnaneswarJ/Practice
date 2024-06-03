@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Kensium_File::view" title="Kensium" module="Kensium_File" sortOrder="1000" resource="Kensium_File::view"/>
+        <add id="Kensium_File::menu" title="File" module="Kensium_File" sortOrder="20" parent="Kensium_File::view" action="file/index/index" resource="Kensium_File::menu"/>
+    </menu>
+</config>

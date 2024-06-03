@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <remove src="Kensium_File::js/view/payment/method-renderer/onlinepayment.js"/>
+        <remove src="Kensium_File::js/view/payment/method-renderer.js"/>
+        <css src="Kensium_File::css/custom.css"/>
+    </head>
+    <body>
+        <referenceBlock name="header.links">
+            <block class="Magento\Framework\View\Element\Html\Link" name="custom-top-link">
+                <arguments>
+                    <argument name="label" xsi:type="string" translate="true">Product Store</argument>
+                    <argument name="path" xsi:type="string" translate="true">http://sai.magento246.com/PST/</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Framework\View\Element\Html\Link" name="custom-top-link-2">
+                <arguments>
+                    <argument name="label" xsi:type="string" translate="true">Main Store</argument>
+                    <argument name="path" xsi:type="string" translate="true">http://sai.magento246.com/default/</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

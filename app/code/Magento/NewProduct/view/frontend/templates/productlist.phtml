@@ -1,0 +1,92 @@
+<?php
+$_productCollection = $block->getLoadProducts();
+if ($_productCollection->getSize() <= 0) {
+    return;
+}
+?>
+<h2><center>New Product List</center></h2>
+<div class="container">
+    <?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
+    <?php
+    $viewMode = 'grid';
+    $image = 'category_page_grid';
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    $pos = $block->getPositioned();
+    $formKey = $block->getFormKey();
+    ?>
+    <div class="ind-container">
+        <div class="products wrapper grid products-grid <?php echo $viewMode; ?> products-<?php echo $viewMode; ?>">
+            <div class="products grid items product-items slick-carousel">
+                <?php foreach($_productCollection as $_product): ?>
+                    <?php $_product = $block->getLoadProduct($_product->getEntityId()); ?>
+                    <div class="item product product-item">
+                        <div class="product-item-info item" data-container="product-grid">
+                            <?php
+                            $productImage = $block->getImage($_product, $image);
+                            $position = ($pos != null) ? ' style="left:' . $productImage->getWidth() . 'px;top:' . $productImage->getHeight() . 'px;"' : '';
+                            ?>
+                            <div class="product-details-container">
+                                <a href="<?php echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
+                                    <?php echo $productImage->toHtml(); ?>
+                                    <div class="product-discount">
+                                        <?php
+                                        $originalPrice = $_product->getPrice();
+                                        $finalPrice = $_product->getFinalPrice();
+                                        if($originalPrice > $finalPrice): ?>
+                                            <div class="price_section">
+                                                <span><?= number_format(($originalPrice - $finalPrice) * 100 / $originalPrice, 0).'% Off'; ?></span>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </a>
+                                <div class="product-details">
+                                    <strong class="product name product-item-name">
+                                        <a class="product-item-link" href="<?php echo $_product->getProductUrl() ?>">
+                                            <?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                                        </a>
+                                    </strong>
+                                    <?php echo $block->getProductPrice($_product);?>
+                                    <?php echo $block->getReviewsSummaryHtml($_product, $templateType); ?>
+                                </div>
+                            </div>
+                            <div class="product-actions">
+                                <?php if ($_product->isSaleable()): ?>
+                                    <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                    <form data-role="tocart-form"
+                                          data-product-sku="<?= $escaper->escapeHtml($_product->getSku()) ?>"
+                                          action="<?= $escaper->escapeUrl($postParams['action']) ?>"
+                                          method="post"
+                                    >
+                                        <input type="hidden" name="product" value="<?= $postParams['data']['product'] ?>">
+                                        <input type="hidden" name="form_key" value="<?= $formKey ?>">
+                                        <button type="submit" title="<?php echo $block->escapeHtml(__('Add to Cart')); ?>" class="action tocart primary">
+                                            <span><?php echo __('Add to Cart') ?></span>
+                                        </button>
+                                    </form>
+                                <?php else: ?>
+                                    <?php if ($_product->getIsSalable()): ?>
+                                        <div class="stock available"><span><?php echo __('In stock') ?></span></div>
+                                    <?php else: ?>
+                                        <div class="stock unavailable"><span><?php echo __('Out of stock') ?></span></div>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    require(['jquery', 'jquery/ui', 'slick'], function($) {
+        $(document).ready(function() {
+            $(".slick-carousel").slick({
+                dots: true,
+                infinite: true,
+                slidesToShow: 5,
+                slidesToScroll: 3
+            });
+        });
+    });
+</script>

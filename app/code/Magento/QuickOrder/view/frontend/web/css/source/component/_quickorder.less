@@ -1,0 +1,88 @@
+table {
+  width: 100%;
+
+}
+th, td {
+  padding: 8px;
+  text-align: center;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+}
+
+.quantity-selector input[type="number"] {
+  width: 50px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.quantity-selector button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 5px;
+}
+
+img.product-image {
+  width: 70px;
+  height: auto;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  display: none;
+}
+
+#modal-content {
+  background-color:Grey;
+  // color:white;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 400px;
+  height:150px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#clearButtonDiv {
+  display: none;
+}
+
+#AddToCartDiv{
+  display: none;
+}
+
+/* CSS styles for product status */
+.product-status {
+  font-weight: bold;
+}
+
+.in-stock {
+  color: green;
+}
+
+.out-of-stock {
+  color: red;
+}

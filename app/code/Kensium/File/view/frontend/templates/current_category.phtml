@@ -1,0 +1,55 @@
+<h2><b>Product Categories</b></h2>
+<?php
+$categories = $block->getCurrentProductCategories();
+?>
+<?php if (!empty($categories)): ?>
+    <ul>
+        <?php foreach ($categories as $category): ?>
+            <li><?php echo $category->getName(); ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>No categories found for the current product.</p>
+<?php endif; ?>
+
+<?php
+$currentProduct = $block->getCurrentProduct();
+if ($currentProduct) {
+    $relatedProducts = $block->getRelatedProducts();
+    if (!empty($relatedProducts)): ?>
+        <h2><b>Related Products</b></h2>
+        <ul>
+            <?php foreach ($relatedProducts as $relatedProduct): ?>
+                <li>
+                    Name: <?php echo $block->escapeHtml($relatedProduct->getName()); ?>
+                    SKU: <?php echo $block->escapeHtml($relatedProduct->getSku()); ?>
+                    -Price $<?php echo $block->escapeHtml($relatedProduct->getFinalPrice()); ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p>No related products found for the current product.</p>
+    <?php endif;
+}
+?>
+
+<?php
+$currentProduct = $block->getCurrentProduct();
+if ($currentProduct) {
+    $UpSellProducts = $block->getUpSellProducts();
+    if (!empty($UpSellProducts)): ?>
+        <h2><b>UpSell Products</b></h2>
+        <ul>
+            <?php foreach ($UpSellProducts as $UpSellProduct): ?>
+                <li>
+                    Name: <?php echo $block->escapeHtml($UpSellProduct->getName()); ?>
+                    SKU: <?php echo $block->escapeHtml($UpSellProduct->getSku()); ?>
+                    -Price $<?php echo $block->escapeHtml($UpSellProduct->getFinalPrice()); ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p>No UpSell products found for the current product.</p>
+    <?php endif;
+}
+?>

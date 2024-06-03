@@ -1,0 +1,14 @@
+<h1 style="text-align: center"><b>Getting the Product Image Size</b></h1>
+
+<?php
+$id = 8;
+$imageId = 'product_base_image';
+$_product = $block->getProductById($id);
+?>
+
+<img src="<?php echo $block->getProductImageUrl($_product, $imageId); ?>" alt="Product Image">
+<h2><b>Product Name:</b> <?php echo $block->getProductName($_product); ?></h2>
+<h2><b>Product SKU: </b><?php echo $block->getProductSku($_product); ?></h2>
+<h2><b>Product Price:</b> $ <?php echo $block->getProductFinalPrice($_product); ?></h2>
+<h2><b>Product Width :</b> <?php echo $block->getImageOriginalWidth($_product, $imageId) . '<br />'; ?></h2>
+<h2><b>Product Height :</b> <?php echo $block->getImageOriginalHeight($_product, $imageId) . '<br />'; ?></h2>

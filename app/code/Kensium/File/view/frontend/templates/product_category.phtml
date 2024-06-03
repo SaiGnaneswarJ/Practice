@@ -1,0 +1,45 @@
+<?php
+
+$productId = 578;
+
+
+$product = $block->getProductById($productId);
+
+
+$productName = $product->getName();
+
+
+$productImageUrl = $block->getProductImageUrl($product);
+
+
+$categoryIds = $product->getCategoryIds();
+
+
+$categories = $block->getCategoryCollection()
+    ->addAttributeToFilter('entity_id', ['in' => $categoryIds]);
+?>
+<h1 style="text-align: center"><b>THE CATEGORIES OF A SPECIFIC PRODUCT</b></h1>
+<table >
+    <thead>
+    <tr>
+        <th>Product Id</th>
+        <th>Product Image</th>
+        <th>Product Name</th>
+        <th>Categories</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><?php echo $productId; ?></td>
+        <td>
+            <img style="height:200px;width:200px" src="<?php echo $productImageUrl; ?>" alt="<?php echo $productName; ?>">
+        </td>
+        <td><?php echo $productName; ?></td>
+        <td>
+            <?php foreach ($categories as $category): ?>
+                <?php echo $category->getName() . '<br>'; ?>
+            <?php endforeach; ?>
+        </td>
+    </tr>
+    </tbody>
+</table>

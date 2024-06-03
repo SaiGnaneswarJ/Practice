@@ -1,0 +1,38 @@
+<h1 style="text-align: center"><b>Creating the Customer</b></h1>
+<?php
+
+$customerInfo = [
+    'customer' => [
+        'firstname' => 'Naveen',
+        'email' => 'Naveen@gmail.com',
+        'lastname' => 'Kumar',
+        'password' => 'Naveen@123',
+        'prefix' => '',
+        'suffix' => ''
+    ],
+    'address' => [
+        'street' => ['SV Street'],
+        'city' => 'Hitech City',
+        'country_id' => 'IN',
+        'postcode' => '500081',
+        'telephone' => '8547126548',
+        'default_billing' => true,
+        'default_shipping' => true
+    ]
+];
+
+// Print customer information
+echo "<h4>First Name: " . $customerInfo['customer']['firstname'] . "</h4>";
+echo "<h4>Last Name: " . $customerInfo['customer']['lastname'] . "</h4>";
+echo "<h4>Email: " . $customerInfo['customer']['email'] . "</h4>";
+echo "<h4>Street: " . implode(", ", $customerInfo['address']['street']) . "</h4>";
+echo "<h4>City: " . $customerInfo['address']['city'] . "</h4>";
+echo "<h4>Country ID: " . $customerInfo['address']['country_id'] . "</h4>";
+echo "<h4>Postcode: " . $customerInfo['address']['postcode'] . "</h4>";
+echo "<h4>Telephone: " . $customerInfo['address']['telephone'] . "</h4>";
+
+$message = $block->createCustomer($customerInfo);
+
+echo "<h3>".$message."</h3>";
+
+?>

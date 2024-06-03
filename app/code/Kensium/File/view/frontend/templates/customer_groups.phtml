@@ -1,0 +1,24 @@
+<h1 style="text-align: center"><b>CUSTOMER GROUPS COLLECTION</b></h1>
+<?php
+/** @var \Kensium\File\Block\CustomerGroups $block */
+$customerGroupCollection = $block->getCustomerGroupCollection();
+?>
+<?php if ($customerGroupCollection->getSize() > 0): ?>
+    <table border="1">
+        <tr>
+            <th style="text-align: center">ID</th>
+            <th style="text-align: center">Code</th>
+            <th style="text-align: center">Tax Class ID</th>
+        </tr>
+        <?php foreach ($customerGroupCollection as $customerGroup): ?>
+            <tr>
+                <td><?php echo $customerGroup->getId(); ?></td>
+                <td><?php echo $customerGroup->getCode(); ?></td>
+                <td><?php echo $customerGroup->getTaxClassId(); ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+<?php else: ?>
+    <p>No customer groups found.</p>
+<?php endif; ?>
+

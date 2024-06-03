@@ -1,0 +1,46 @@
+<?php
+$collection = $block->getProductCollection();
+//$escaper = $this->helper(\Magento\Framework\Escaper::class);
+$formKey = $block->getFormKey();
+?>
+
+<div class="products-grid">
+    <div class="product-items">
+        <?php foreach ($collection as $product): ?>
+            <?php $imageUrl = $block->escapeUrl($block->getImageUrl($product, 'product_base_image')); ?>
+            <div class="product-item">
+                <a href="<?= $block->escapeUrl($product->getProductUrl()) ?>">
+                    <img src="<?= $imageUrl ?>" alt="<?= $escaper->escapeHtml($product->getName()) ?>">
+                </a>
+                <div class="product-info">
+                    <h4 class="product-name"><?= $escaper->escapeHtml($product->getName()) ?></h4>
+                    <div class="product-price">
+                        <h4>$<?= $product->getPrice() ?></h4>
+                    </div>
+                </div>
+                <div class="product-actions">
+                    <?php if ($product->isSaleable()): ?>
+                        <?php $postParams = $block->getAddToCartPostParams($product); ?>
+                        <form data-role="tocart-form"
+                              data-product-sku="<?= $escaper->escapeHtml($product->getSku()) ?>"
+                              action="<?= $escaper->escapeUrl($postParams['action']) ?>"
+                              method="post"
+                        >
+                            <input type="hidden" name="product" value="<?= $postParams['data']['product'] ?>">
+                            <input type="hidden" name="form_key" value="<?= $formKey ?>">
+                            <button type="submit" title="<?= $escaper->escapeHtml(__('Add to Cart')); ?>" class="action tocart primary">
+                                <span><?= __('Add to Cart') ?></span>
+                            </button>
+                        </form>
+                    <?php else: ?>
+                        <?php if ($product->getIsSalable()): ?>
+                            <div class="stock available"><span><?= __('In stock') ?></span></div>
+                        <?php else: ?>
+                            <div class="stock unavailable"><span><?= __('Out of stock') ?></span></div>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>

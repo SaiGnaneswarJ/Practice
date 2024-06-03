@@ -1,0 +1,37 @@
+<h1 style="text-align: center;color: red">PRODUCT REVIEW COLLECTION</h1>
+<?php
+$productsData = $block->getAllProductsData();
+?>
+
+<?php if (!empty($productsData)): ?>
+    <table class="reviews-table" style="border-collapse: collapse; width: 100%;">
+        <thead>
+        <tr>
+            <th style="border: 1px solid #ddd; text-align: center;">Review ID</th>
+            <th style="border: 1px solid #ddd; text-align: center;">Product ID</th>
+            <th style="border: 1px solid #ddd; text-align: center;">SKU</th>
+            <th style="border: 1px solid #ddd; text-align: center;">Nick Name</th>
+            <th style="border: 1px solid #ddd; text-align: center;">Review Title</th>
+            <th style="border: 1px solid #ddd; text-align: center;">Review Detail</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($productsData as $productData): ?>
+            <?php if (!empty($productData['reviews'])): ?>
+                <?php foreach ($productData['reviews'] as $review): ?>
+                    <tr>
+                        <td style="border: 1px solid #ddd; text-align: center;"><?php echo $review['review_id']; ?></td>
+                        <td style="border: 1px solid #ddd; text-align: center;"><?php echo $review['entity_pk_value']; ?></td>
+                        <td style="border: 1px solid #ddd; text-align: center;"><?php echo $productData['sku']; ?></td>
+                        <td style="border: 1px solid #ddd; text-align: center;"><?php echo $review['nickname']; ?></td>
+                        <td style="border: 1px solid #ddd; text-align: center;"><?php echo $review['title']; ?></td>
+                        <td style="border: 1px solid #ddd; text-align: center;"><?php echo $review['detail']; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php else: ?>
+    <p>No products available.</p>
+<?php endif; ?>

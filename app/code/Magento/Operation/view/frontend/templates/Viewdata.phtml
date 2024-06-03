@@ -1,0 +1,62 @@
+<?php
+$collection = $block->getCollection();
+if ($collection->count()) {
+    ?>
+    <div>
+        <a href="<?php echo $this->getBaseUrl().'operation/index/index'?>">
+            <button style="background-color: blue;">Add Data</button>
+        </a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>FIRST NAME</th>
+                <th>LAST NAME</th>
+                <th>EMAIL</th>
+                <th>MOBILE NO</th>
+                <th>AGE</th>
+                <th>GENDER</th>
+                <th>ADDRESS</th>
+                <th>ACTION</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($collection as $data): ?>
+                <tr>
+                    <td>
+                        <?php echo $data->getId() ?>
+                    </td>
+                    <td >
+                        <?php echo $data->getFirstName() ?>
+                    </td>
+                    <td >
+                        <?php echo $data->getLastName() ?>
+                    </td>
+                    <td>
+                        <?php echo $data->getEmail() ?>
+                    </td>
+                    <td>
+                        <?php echo $data->getMobile() ?>
+                    </td>
+                    <td>
+                        <?php echo $data->getAge() ?>
+                    </td>
+                    <td>
+                        <?php echo $data->getGender() ?>
+                    </td>
+                    <td>
+                        <?php echo $data->getAddress() ?>
+                    </td>
+                    <td>
+                        <a href="<?php echo $block->getDeleteAction() . 'id/' . $data->getId(); ?>">Delete</a>
+                        || <a href="<?php echo $block->getEditAction() . 'id/' . $data->getId(); ?>">Edit</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php
+}
+?>

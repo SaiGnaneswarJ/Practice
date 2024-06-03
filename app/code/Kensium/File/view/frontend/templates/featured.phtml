@@ -1,0 +1,28 @@
+<h1 style="text-align: center"><b>Featured Products Collection</b></h1>
+
+<?php
+$collection = $block->getProductCollection();
+echo '<div class="product-grid">';
+foreach ($collection as $_product) {
+    $imageUrl = $block->getUrl('pub/media/catalog') . 'product' . $_product->getImage();
+    $productName = $_product->getName();
+    $productPrice = $_product->getPriceInfo()->getPrice('final_price')->getValue();
+    $addToCartUrl = $block->getAddToCartUrl($_product);
+    $productUrl = $_product->getProductUrl();
+
+    echo '<div class="product-item" style="float:left;width:200px;margin-right:20px;">';
+    echo '<a href="' . $productUrl . '">';
+    echo '<img src="' . $imageUrl . '" alt="' . $productName . '" style="width: 200px; height: 200px;" />';
+    echo '</a>';
+    echo '<h4>' . $productName . '</h4>';
+    echo '<p>Price: <b>$' . $productPrice . '</b></p>';
+    echo '<form action="' . $addToCartUrl . '" method="post">';
+    echo '<input type="hidden" name="product" value="' . $_product->getId() . '" />';
+    echo '<input type="hidden" name="form_key" value="' . $block->getFormKey() . '" />';
+    echo '<button type="submit" title="Add to Cart" class="action tocart primary"><span>Add to Cart</span></button>';
+    echo '</form>';
+    echo '<br><br>';
+    echo '</div>';
+}
+echo '</div>';
+?>

@@ -1,0 +1,11 @@
+<?php
+/** @var \Magento\QuickOrder\Block\Adminhtml\SellerInfo $block */
+$seller = $block->getSellerInfo();
+?>
+
+<?php if ($seller): ?>
+    <div class="seller-info">
+        <h2><b>Seller:</b> <?php echo $seller; ?></h2>
+    </div>
+<?php endif; ?>
+

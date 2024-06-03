@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Integration/etc/config.xsd">
+    <integrations>
+        <integration name="TestIntegration">
+            <email>saignaneswarj@kenisum.com</email>
+            <endpoint_url>http://sai.magento246.com/</endpoint_url>
+            <identity_link_url>http://sai.magento246.com/</identity_link_url>
+        </integration>
+    </integrations>
+</config>

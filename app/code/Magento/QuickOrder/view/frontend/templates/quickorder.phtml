@@ -1,0 +1,437 @@
+<h1><center>Quick Order</center></h1>
+<div id="quick-order">
+    <input type="text" id="searchInput" placeholder="Search for products...">
+    <div id="productList"></div>
+    <br><br><br><br>
+    <div>
+        <div id="productDetails"></div>
+        <br><br>
+        <div id="clearButtonDiv" style="display: none;">
+            <button class="close-btn" style="float:right;margin-right:20px;color:red" onclick="openModal()">Clear Data</button>
+            <div id="myModal" class="modal">
+                <div id="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <h3 style="text-align:center">Are you sure?</h3>
+                    <br><br><br>
+                    <button style="margin-left:75px;width:100px" onclick="closeModal()">No</button>
+                    <button style="margin-left:20px;width:100px" onclick="clearLocalStorage()">Yes</button>
+                </div>
+            </div>
+        </div>
+        <br><br><br>
+        <div id="AddToCartDiv" style="display: none;">
+            <h4>Seller   <span style="color: red;">*</span></h4>
+            <select id="selectField" style="width:700px">
+                <option value="">Select Seller</option>
+                <option value="Jhon">Jhon</option>
+                <option value="Manoj">Manoj</option>
+                <option value="Hemanth">Hemanth</option>
+                <option value="James">James</option>
+                <option value="Kalyan">Kalyan</option>
+                <option value="Naveen">Naveen</option>
+            </select>
+            <br>
+            <span id="selectFieldError" style="color: red;"></span>
+            <br><br>
+            <button class="checkout-cart" style="float:right;margin-right:20px;background-color:blue;color:white;width:150px;height:50px" >Checkout</button>
+            <button class="add-to-cart" style="float:right;margin-right:20px;color:green;width:150px;height:50px" >AddToCart</button>
+        </div>   
+    </div>
+</div>
+
+<script>
+    require(['jquery'], function($) {
+        $(document).ready(function() {
+
+            $('#searchInput').on('input', function() {
+                searchProducts();
+            });
+
+            $('#searchInput').keypress(function(event) {
+                // checks if the enter key is clicked or not
+                if (event.which === 13) {
+                    searchProducts();
+                }
+            });
+
+            $('#searchInput').click(function(event) {
+                if ($('#searchInput').val().length > 1) {
+                    searchProducts();
+                }
+            });
+
+            $(document).click(function(event) {
+                var productListDiv = $('#productList');
+                // Check if the click target is not within the productListDiv
+                if (!productListDiv.is(event.target) && productListDiv.has(event.target).length === 0) {
+                    productListDiv.hide();
+                }
+            });
+        
+
+            $(document).on('click', '.quantity-increment', function() {
+                var input = $(this).siblings('input[type="number"]');
+                var currentValue = parseInt(input.val());
+                input.val(currentValue + 1);
+            });
+
+            $(document).on('click', '.quantity-decrement', function() {
+                var input = $(this).siblings('input[type="number"]');
+                var currentValue = parseInt(input.val());
+                if (currentValue > 1) {
+                    input.val(currentValue - 1);
+                }
+            });
+
+            // add button functinality to add the products to the local storage
+            $(document).on('click', '.add-product-btn', function() {
+                var productRow = $(this).closest('tr');
+                var productId = $(this).data('entity_id');
+                var productName = productRow.find('.product-name').text();
+                var productQuantity = parseInt(productRow.find('input[type="number"]').val());
+                var productSku = productRow.find('.product-sku').text();
+                var productPrice = parseFloat(productRow.find('.product-price').text().replace('$', ''));
+                var productImage = productRow.find('.product-image').attr('src');
+
+                // Create an object to represent the product
+                var product = {
+                    id: productId,
+                    name: productName,
+                    quantity: productQuantity,
+                    sku: productSku,
+                    price: productPrice,
+                    image: productImage
+                };
+
+                // Get existing products from local storage or initialize an empty array
+                var existingProducts = JSON.parse(localStorage.getItem('quick_order_products')) || [];
+
+                // Check if the product is already in the array
+                var existingProductIndex = existingProducts.findIndex(function(item) {
+                    return item.id === productId;
+                });
+
+                if (existingProductIndex !== -1) {
+                    existingProducts[existingProductIndex].quantity += productQuantity;
+                } else {
+                    existingProducts.push(product);
+                }
+
+                // Store the updated array back into local storage
+                localStorage.setItem('quick_order_products', JSON.stringify(existingProducts));
+
+                console.log("Product Added");
+                displayProductDetails(existingProducts);
+            });
+        });
+
+
+        function searchProducts() {
+            var query = $('#searchInput').val();
+            $.ajax({
+                url: '<?php echo $block->getUrl("quickorder/index/search"); ?>',
+                data: {query: query},
+                type: 'POST',
+                success: function(response) {
+                    // Display products and show productList div
+                    displayProducts(response.products);
+                    $('#productList').show();
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+
+        // display the products when searched
+        function displayProducts(products) {
+            var searchInputValue = $('#searchInput').val();
+            $('#productList').empty();
+            $('#productList').show();
+            $('#searchInput').val(searchInputValue);
+            var productTable = '<table>';
+            $.each(products, function(index, product) {
+                productTable += '<tr>';
+                productTable += '<td><img class="product-image" src="' + product.image_url + '" alt="' + product.name + '"></td>';
+                productTable += '<td class="product-name">' + product.name + '</td>';
+                productTable += '<td class="quantity-selector">';
+                productTable += '<button class="quantity-decrement">-</button>';
+                productTable += '<input type="number" min="1" value="1">';
+                productTable += '<button class="quantity-increment">+</button>';
+                productTable += '</td>';
+                productTable += '<td class="product-sku">' + product.sku + '</td>';
+                productTable += '<td class="product-price"">$' + product.price + '</td>';  
+                // productTable += '<td class="product-status">' + product.status + '</td>'; 
+                productTable += '<td class="product-status ' + (product.status === 'In Stock' ? 'in-stock' : 'out-of-stock') + '">' + product.status + '</td>'; 
+                // productTable += '<td class="product-qty">' + product.quantity + '</td>';                          
+                // productTable += '<td><button class="add-product-btn" data-entity_id="' + product.entity_id + '">Add</button></td>';
+                if (product.quantity > 0) {
+                    productTable += '<td><button class="add-product-btn" data-entity_id="' + product.entity_id + '">Add</button></td>';
+                } else {
+                    productTable += '<td><span style="color:red" class="out-of-stock">Out of Stock</span></td>';
+                }
+
+                productTable += '</tr>';
+            });
+            productTable += '</table>';
+            $('#productList').append(productTable);
+        }
+
+        // From Here to Getting the Details From the LocalStorage
+
+        function getProductDetailsFromLocalStorage() {
+            var products = JSON.parse(localStorage.getItem('quick_order_products'));
+            return products ? products : [];
+        }
+
+        var products = getProductDetailsFromLocalStorage();
+        displayProductDetails(products);
+
+        // increment functionality
+        $(document).on('click', '#quantity-increment', function() {
+            var input = $(this).siblings('input[type="number"]');
+            var productId = $(this).data('product-id');
+            updateQuantity(productId, 1);
+            var currentValue = parseInt(input.val());
+            input.val(currentValue + 1);
+        });
+
+        // decrement functionaltiy
+        $(document).on('click', '#quantity-decrement', function() {
+            var input = $(this).siblings('input[type="number"]');
+            var productId = $(this).data('product-id');
+            var currentValue = parseInt(input.val());
+            if (currentValue > 1) {
+                updateQuantity(productId, -1);
+                input.val(currentValue - 1);
+            }
+        });
+
+        // updating the quantity in the local storage
+        function updateQuantity(productId, incrementBy) {
+            var products = JSON.parse(localStorage.getItem('quick_order_products')) || [];
+            var updatedProducts = [];
+
+            for (var i = 0; i < products.length; i++) {
+                if (products[i].id === productId) {
+                    var updatedQuantity = products[i].quantity + incrementBy;
+                    // Ensure quantity doesn't go below 1
+                    updatedQuantity = Math.max(updatedQuantity, 1);
+                    products[i].quantity = updatedQuantity;
+                }
+                updatedProducts.push(products[i]);
+            }
+
+            localStorage.setItem('quick_order_products', JSON.stringify(updatedProducts));
+            displayProductDetails(updatedProducts);
+        }
+      
+        // remove product functionality
+        function removeProduct(productId) {
+            var products = JSON.parse(localStorage.getItem('quick_order_products')) || [];
+            console.log("Product id : ",productId);
+            console.log(products);
+
+            var updatedProducts = [];
+            for (var i = 0; i < products.length; i++) {
+                console.log("Comparing product ID: ", products[i].id);
+                if (products[i].id != productId) {
+                    updatedProducts.push(products[i]);
+                }
+            }
+
+            console.log("Updated products: ", updatedProducts);
+
+            localStorage.setItem('quick_order_products', JSON.stringify(updatedProducts));
+            console.log("Product removed");
+
+            try {
+                localStorage.setItem('quick_order_products', JSON.stringify(updatedProducts));
+                console.log("Product removed");
+
+                displayProductDetails(updatedProducts);
+            } catch (error) {
+                console.error("Error updating local storage:", error);
+            }
+        }
+
+        // Function to display product details in a table
+        function displayProductDetails(products) {
+            var table = '';
+            var totalPrice = 0;
+            
+            if (products.length > 0) {
+                table += '<table>';
+                table += '<tr>';
+                // table += '<th>ID</th>';
+                table += '<th>Item</th>';
+                table += '<th>Name</th>';
+                table += '<th>SKU</th>';
+                table += '<th>Quantity</th>';
+                // table += '<th>Price</th>';
+                table += '<th>Total Price</th>';
+                table += '<th>Action</th>';
+                table += '</tr>';
+
+                products.forEach(function(product, index) {
+                    table += '<tr>';
+                    // table += '<td>' + product.id + '</td>';
+                    table += '<td><img class="product-image" src="' + product.image + '" alt="' + product.name + '"></td>';
+                    table += '<td>' + product.name + '</td>';                    
+                    table += '<td>' + product.sku + '</td>';
+                    table += '<td class="quantity-selector">';
+                    table += '<button id="quantity-decrement" data-product-id="' + product.id + '">-</button>';
+                    table += '<input type="number" min="1" value="' + product.quantity + '">';
+                    table += '<button id="quantity-increment"data-product-id="' + product.id + '">+</button>';
+                    table += '</td>';
+                    // table += '<td>$' + product.price+ '</td>';
+                    table += '<td>$' + (product.quantity * product.price) + '</td>';
+                    table += '<td><button class="remove-btn" data-product-id="' + product.id + '">Remove</button></td>';
+                    table += '</tr>';
+
+                    totalPrice += product.quantity * product.price;
+                });
+
+                table += '</table>';
+
+
+                document.getElementById('clearButtonDiv').style.display = 'block';
+                document.getElementById('AddToCartDiv').style.display = 'block';
+
+            } else {
+                table += '<h2 style="text-align:center"><b>No products added yet</b></h2>';
+                document.getElementById('clearButtonDiv').style.display = 'none';
+                document.getElementById('AddToCartDiv').style.display = 'none';
+            }
+
+            document.getElementById('productDetails').innerHTML = table;
+        }
+        
+       
+        // remove button to remove the single product
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('remove-btn')) {
+                var productId = event.target.getAttribute('data-product-id');
+                removeProduct(productId);
+            }
+        });
+
+        // on click of add to cart button it add the products to the cart
+        $(document).on('click', '.add-to-cart', function() {
+
+            var selectedOption = $('#selectField').val();
+            if(selectedOption === "") {
+                $('#selectFieldError').text("Please select an option before adding to cart.");
+                return;
+            }
+            $('#selectFieldError').text("");
+
+            selectValue(selectedOption);
+            
+            var products = JSON.parse(localStorage.getItem('quick_order_products'));
+            
+            if (products && products.length > 0) {
+                products.forEach(function(product) {
+                    console.log("Adding product to cart:", product);
+                    addToCart(product);
+                });
+                console.log("Products added to cart. Local storage cleared.");
+                localStorage.removeItem('quick_order_products');
+
+            } else {
+                console.log("No products found in local storage");
+            }
+        });
+
+        // add to cart functionality
+        function addToCart(product) {
+            $.ajax({
+                url: '<?php echo $block->getUrl("quickorder/index/addtocart"); ?>',
+                data: {entity_id: product.id, qty: product.quantity},
+                type: 'POST',
+                success: function(response) {
+                    console.log('Product added to cart successfully!');
+                    window.location.href = '<?php echo $block->getUrl("checkout/cart"); ?>'; 
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        
+        function selectValue(selectedOption) {
+
+            // Store the selected value in session storage
+            sessionStorage.setItem('selected_option', selectedOption);
+            console.log('selected value', selectedOption);
+
+        }
+
+
+        // checkout cart functionality
+        function checkoutCart(product){
+            $.ajax({
+                url: '<?php echo $block->getUrl("quickorder/index/addtocart"); ?>',
+                data: {entity_id: product.id, qty: product.quantity},
+                type: 'POST',
+                success: function(response) {
+                    console.log('Product added to cart successfully!');
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+        
+        // on click of checkout it goes to the checkout page while adding the products to the cart
+        $(document).on('click', '.checkout-cart', function() {
+
+            var selectedOption = $('#selectField').val();
+            if(selectedOption === "") {
+                $('#selectFieldError').text("Please select an option before proceeding to checkout.");
+                return;
+            }
+            $('#selectFieldError').text("");
+
+            selectValue(selectedOption);
+
+            var products = JSON.parse(localStorage.getItem('quick_order_products'));
+            
+            if (products && products.length > 0) {
+                products.forEach(function(product) {
+                    console.log("Adding product to cart:", product);
+                    checkoutCart(product);
+                });
+                
+                console.log("Products added to cart. Local storage cleared.");
+                localStorage.removeItem('quick_order_products');
+                window.location.href = '<?php echo $block->getUrl("http://sai.magento246.com/default/checkout/#shipping"); ?>';
+
+            } else {
+                console.log("No products found in local storage");
+            }
+        });
+
+    });
+
+    // Clearing the local storage
+
+    var modal = document.getElementById('myModal');
+
+    function openModal() {
+        modal.style.display = 'block';
+    }
+    
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+     
+    function clearLocalStorage() {
+        localStorage.clear();
+        closeModal();
+        window.location.reload();
+    }
+
+</script>

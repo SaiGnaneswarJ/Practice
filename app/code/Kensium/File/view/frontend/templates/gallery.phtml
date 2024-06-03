@@ -1,0 +1,12 @@
+<h1 style="text-align:center"><b>Displaying the Upload Images</b></h1>
+
+<div class="image-gallery">
+    <?php $images = $block->getUploadedImages(); ?>
+    <?php if (!empty($images)) : ?>
+        <?php foreach ($images as $image) : ?>
+            <img style="width:200px;height:200px" src="<?php echo $block->getImageUrl($image); ?>" alt="Uploaded Image">
+        <?php endforeach; ?>
+    <?php else : ?>
+        <p>No images found.</p>
+    <?php endif; ?>
+</div>

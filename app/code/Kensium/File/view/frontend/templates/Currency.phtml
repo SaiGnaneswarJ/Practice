@@ -1,0 +1,91 @@
+<h1 style="text-align: center"><b>GETTING CURRENCY DATA:CODE,RATE,SYMBOL</b></h1>
+
+
+<h2 style="text-align: center">Current Currency Rate And Symbol</h2>
+<table border="1">
+    <tr>
+        <th>Tittle</th>
+        <th>Code</th>
+        <th>Rate</th>
+        <th>Symbol</th>
+    </tr>
+    <tr>
+        <td><strong>Current Currency Rate</strong></td>
+        <td><?php echo $block->getCurrentCurrencyCode(); ?></td>
+        <td><?php echo $block->getCurrentCurrencyRate(); ?></td>
+        <td><?php echo $block->getCurrentCurrencySymbol(); ?></td>
+    </tr>
+</table>
+
+<br><br>
+
+<h2 style="text-align: center">Base Currency</h2>
+<table border="1">
+    <tr>
+        <th>Tittle</th>
+        <th>Code</th>
+    </tr>
+    <tr>
+        <td><strong>Base Currency Code</strong></td>
+        <td><?php echo $block->getBaseCurrencyCode(); ?></td>
+    </tr>
+</table>
+
+<br><br>
+
+<h2 style="text-align: center">Current Currency</h2>
+<table border="1">
+    <tr>
+        <th>Tittle</th>
+        <th>Code</th>
+    </tr>
+    <tr>
+        <td><strong>Current Currency Code</strong></td>
+        <td><?php echo $block->getCurrentCurrencyCode(); ?></td>
+    </tr>
+</table>
+
+<br><br>
+
+<h2 style="text-align: center">Default Currency</h2>
+<table border="1">
+    <tr>
+        <th>Tittle</th>
+        <th>Code</th>
+    </tr>
+    <tr>
+        <td><strong>Default Currency Code</strong></td>
+        <td><?php echo $block->getDefaultCurrencyCode(); ?></td>
+    </tr>
+</table>
+
+<br><br>
+
+<h2 style="text-align: center">Available Currency</h2>
+<table border="1">
+    <tr>
+        <th>Tittle</th>
+        <th>Codes</th>
+    </tr>
+    <tr>
+        <td><strong>Available Currency Codes</strong></td>
+        <td><?php echo implode(', ', $block->getAvailableCurrencyCodes()); ?></td>
+    </tr>
+</table>
+
+<br><br>
+
+<h2 style="text-align: center">Allowed Currency</h2>
+<table border="1">
+    <tr>
+        <th>Tittle</th>
+        <th>Codes</th>
+    </tr>
+    <tr>
+        <td><strong>Allowed Currencies</strong></td>
+        <td><?php echo implode(', ', $block->getAllowedCurrencies()); ?></td>
+    </tr>
+</table>
+
+
+

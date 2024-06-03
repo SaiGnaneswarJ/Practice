@@ -1,0 +1,47 @@
+<h1 style="text-align: center"><b>WishList Products Collection</b></h1>
+<?php
+$wishlistData = $block->getWishlistProducts();
+
+foreach ($wishlistData as $customerData) {
+    $customerId = $customerData['customer_id'];
+    $customerName = $customerData['customer_name'];
+    $wishlistProducts = $customerData['products'];
+
+    echo "<div class='customer-wishlist'>";
+    echo "<h3 style='text-align: center'>Customer ID: $customerId - Customer Name: $customerName</h3>";
+
+    if (!empty($wishlistProducts)) {
+        echo '<table class="product-grid">';
+        echo '<tr>';
+        foreach ($wishlistProducts as $_product) {
+            $productImageUrl = $block->getUrl('pub/media/catalog') . 'product' . $_product->getData('thumbnail');
+            $productName = $_product->getName();
+            $productPrice = $_product->getFinalPrice();
+
+            echo '<td>';
+            echo '<div class="product-item">';
+            echo '<a href="' . $_product->getProductUrl() . '">';
+            echo '<img src="' . $productImageUrl . '" alt="' . $productName . '" style="width: 200px; height: 200px;" />';
+            echo '</a>';
+            echo '<a href="' . $_product->getProductUrl() . '">';
+            echo '<h4>' . $productName . '</h4>';
+            echo '</a>';
+            echo '<p>Price: <b>$' . $productPrice . '</b></p>';
+            echo '<form action="' . $block->getUrl('checkout/cart/add') . '" method="post">';
+            echo '<input type="hidden" name="product" value="' . $_product->getId() . '" />';
+            echo '<input type="hidden" name="form_key" value="' . $block->getFormKey() . '" />';
+            echo '<button type="submit" title="Add to Cart" class="action tocart primary"><span>Add to Cart</span></button>';
+            echo '</form>';
+            echo '</div>';
+            echo '</td>';
+        }
+        echo '</tr>';
+        echo '</table>';
+        echo '<hr>';
+    } else {
+        echo '<p>No products found in the wishlist.</p>';
+    }
+
+    echo "</div>";
+}
+?>

@@ -1,0 +1,17 @@
+<?php
+$sessionCustomerId = $block->getCustomerId();
+$sessionLoggedIn = $block->isLoggedIn();
+?>
+<p>Customer ID from session: <?= $block->escapeHtml($sessionCustomerId); ?></p>
+<p>Is logged in: <?= $sessionLoggedIn ? 'Yes' : 'No'; ?></p>
+<?php if ($sessionLoggedIn): ?>
+    <?php $customer = $block->getCustomer(); ?>
+    <div class="customer-details">
+        <h2>Customer Details</h2>
+        <p><strong>Customer ID:</strong> <?= $block->escapeHtml($sessionCustomerId); ?></p>
+        <p><strong>Name:</strong> <?= $block->escapeHtml($customer->getName()); ?></p>
+        <p><strong>Email:</strong> <?= $block->escapeHtml($customer->getEmail()); ?></p>
+    </div>
+<?php else: ?>
+    <p>You are not logged in.</p>
+<?php endif; ?>

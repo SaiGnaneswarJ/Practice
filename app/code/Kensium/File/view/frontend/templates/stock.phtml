@@ -1,0 +1,21 @@
+<h1 style="text-align: center"><b>Stock Information of the Product</b></h1>
+<?php
+
+$id = 2000;
+$_productStock = $block->getStockItem($id);
+//print_r($_productStock->getData());
+
+echo "<h2>Product Id:</h2>".$id;
+echo "<h2>Quantity :</h2>";
+echo $_productStock->getQty(); echo '<br />';
+echo "<h2>Min Quantity :</h2>";
+echo $_productStock->getMinQty(); echo '<br />';
+echo "<h2>Min Sale Quantity :</h2>";
+echo $_productStock->getMinSaleQty(); echo '<br />';
+echo "<h2>Max Sale Quantity :</h2>";
+echo $_productStock->getMaxSaleQty(); echo '<br />';
+echo "<h2>In Stock :</h2>";
+echo $_productStock->getIsInStock(); echo '<br />';
+
+?>
+

@@ -1,0 +1,39 @@
+<h1 style="text-align: center"><b>Creating Invoice For Order </b></h1>
+
+<form id="custom-form">
+    <label for="order_id"><b>Order Id:</b></label>
+    <br>
+    <input style="width: 500px; height: 50px" type="number" id="order_id" name="order_id" data-validate="{required:true}" />
+    <br><br>
+    <input type="hidden" id="form_key" name="form_key" value="<?php echo $block->escapeHtml($block->getFormKey()); ?>" />
+    <button type="button" style="width: 150px; height: 50px; background-color: yellow" class="add-product-btn">Save</button>
+</form>
+
+<script>
+    require(['jquery', 'mage/validation'], function($) {
+        $(document).on('click', '.add-product-btn', function() {
+            var form = $('#custom-form');
+            if (form.validation() && form.validation('isValid')) {
+                var order_id = $('#order_id').val();
+
+                console.log(order_id);
+                var form_key = $('#form_key').val();
+
+                $.ajax({
+                    url: '<?php echo $block->getUrl("file/index/createinvoice"); ?>',
+                    type: 'POST',
+                    data: {
+                        order_id: order_id,
+                        form_key: form_key
+                    },
+                    success: function(response) {
+                        console.log("Invoice is created for order");
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+        });
+    });
+</script>

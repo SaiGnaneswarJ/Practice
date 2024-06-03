@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="customer_entity" resource="default" engine="innodb" comment="Operation Table">
+        <column xsi:type="varchar" name="my_custom_field" nullable="false" comment="My Custom Field"/>
+    </table>
+    <table name="cms_page" resource="default" engine="innodb" comment="Operation Table">
+        <column xsi:type="varchar" name="sub_title" nullable="false" comment="Sub Title"/>
+    </table>
+</schema>

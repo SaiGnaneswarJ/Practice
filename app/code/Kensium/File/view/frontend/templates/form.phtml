@@ -1,0 +1,43 @@
+<h1 style="text-align: center"><b>CUSTOM VALIDATION RULE</b></h1>
+
+<form id="custom-form">
+    <label for="product-sku"><b>Product SKU:</b></label>
+    <br>
+    <input style="width: 500px;height: 50px" type="text" id="product-sku" name="product_sku" data-validate="{'required-entry':true, 'myvalidationrule':true}"  />
+    <br><br>
+    <label for="category-id"><b>Category ID:</b></label>
+    <br>
+    <input style="width: 500px;height: 50px" type="text" id="category-id" name="category_id" data-validate="{'required-entry':true, 'myvalidationrule':true}" />
+    <br><br>
+    <button type="button" style="width: 150px;height: 50px;background-color:yellow" class="add-product-btn" >Save</button>
+</form>
+
+<script>
+    require(['jquery', 'mage/validation'], function($) {
+        $(document).on('click', '.add-product-btn', function() {
+            var form = $('#custom-form');
+            if (form.validation() && form.validation('isValid')) {
+                var productSku = $('#product-sku').val();
+                console.log(productSku);
+
+                var categoryId = $('#category-id').val();
+                console.log(categoryId);
+
+                $.ajax({
+                    url: '<?php echo $block->getUrl("file/index/savecategory"); ?>',
+                    type: 'POST',
+                    data: {
+                        sku: productSku,
+                        categoryId: categoryId
+                    },
+                    success: function(response) {
+                        console.log("Product Added to category");
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+        });
+    });
+</script>

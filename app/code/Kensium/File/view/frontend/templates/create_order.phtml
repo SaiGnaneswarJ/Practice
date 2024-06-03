@@ -1,0 +1,30 @@
+<?php
+/** @var Kensium\File\Block\CreateOrder $block */
+?>
+
+<?php
+
+$customerEmail = 'harish@gmail.com';
+$productSkus = ['24-MB01'];
+$shippingMethod = 'flatrate_flatrate';
+?>
+
+<div>
+    <h2>Create Order</h2>
+    <p>Customer Email: <?php echo $customerEmail; ?></p>
+    <p>Product SKUs: <?php echo implode(', ', $productSkus); ?></p>
+
+    <?php
+
+
+    $block->setShippingMethod($shippingMethod);
+
+
+    $result = $block->createOrder($productSkus, $customerEmail);
+    if (isset($result['success'])) {
+        echo '<p style="color: green;">' . $result['msg'] . '</p>';
+    } elseif (isset($result['error'])) {
+        echo '<p style="color: red;">' . $result['msg'] . '</p>';
+    }
+    ?>
+</div>

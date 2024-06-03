@@ -1,0 +1,30 @@
+<h1 style="text-align: center;"><b>New Product Collection</b></h1>
+<div class="products-grid">
+    <?php $newProducts = $block->getProductCollection(); ?>
+    <?php foreach ($newProducts as $_product): ?>
+        <div class="product-item">
+            <a href="<?= $block->escapeUrl($_product->getProductUrl()) ?>">
+                <?php $imageUrl = $block->getProductImage($_product, 'product_small_image'); ?>
+                <img src="<?= $block->escapeUrl($imageUrl) ?>" alt="<?= $block->escapeHtml($_product->getName()) ?>" >
+            </a>
+            <div class="product-details">
+                <a class="product-name" href="<?= $block->escapeUrl($_product->getProductUrl()) ?>">
+                    <?= $block->escapeHtml($_product->getName()) ?>
+                </a>
+
+                <?php if ($_product->getPriceInfo()->getPrice('regular_price')->getAmount()->getValue()): ?>
+                    <div class="price-box">
+                       Price $<?= $block->escapeHtml($_product->getPriceInfo()->getPrice('regular_price')->getAmount()->getValue()) ?>
+                    </div>
+                <?php endif; ?>
+
+                <button type="button" title="<?= __('Add to Cart') ?>" class="action tocart primary">
+                    <span><?= __('Add to Cart') ?></span>
+                </button>
+                <a href="#" class="action towishlist" title="<?= __('Add to Wishlist') ?>"></a>
+                <a href="#" class="action tocompare" title="<?= __('Compare') ?>"></a>
+
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>

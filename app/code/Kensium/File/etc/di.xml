@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="kensiumAddProductToCategory" xsi:type="object">Kensium\File\Console\Command\AddProductToCategoryCommand</item>
+                <item name="kensiumProductUpdate" xsi:type="object">Kensium\File\Console\Command\UpdateProduct</item>
+                <item name="kensiumUpdateStock" xsi:type="object">Kensium\File\Console\Command\UpdateStock</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Product">
+        <arguments>
+            <argument name="catalogProductStatus" xsi:type="object">Magento\Catalog\Model\Product\Attribute\Source\Status\Proxy</argument>
+            <argument name="productLink" xsi:type="object">Magento\Catalog\Model\Product\Link\Proxy</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Kensium\File\Model\ResourceModel\File\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">data_example</argument>
+            <argument name="resourceModel" xsi:type="string">Kensium\File\Model\ResourceModel\File</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="file_grid_list_data_source" xsi:type="string">Kensium\File\Model\ResourceModel\File\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Kensium\File\Block\SessionPractice">
+        <arguments>
+            <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Sales\Api\Data\OrderExtensionInterfaceFactory">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="custom_attribute" xsi:type="string">Custom Attribute</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Kensium\File\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Kensium\File\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">kensium</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">Kensium\File\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
+

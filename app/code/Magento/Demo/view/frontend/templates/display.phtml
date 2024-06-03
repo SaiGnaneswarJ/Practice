@@ -1,0 +1,14 @@
+<h2>Example Data</h2>
+<?php
+foreach ($block->getInformation() as $key=>$data){
+    echo "Id :".$data->getId();
+    echo "<br>";
+    echo "Name :".$data->getName();
+    echo "<br>";
+    echo "Email :".$data->getEmail();
+    echo "<br>";
+    echo "Age :".$data->getAge();
+    echo "<br><br>";
+}
+
+?>

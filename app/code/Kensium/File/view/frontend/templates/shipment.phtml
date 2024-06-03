@@ -1,0 +1,23 @@
+<?php
+/** @var \Kensium\File\Block\Shipment $block */
+$orderId = 36;
+try {
+    $shipmentId = $block->createShipmentForOrder($orderId);
+} catch (\Exception $e) {
+    $shipmentId = false;
+    $errorMessage = $e->getMessage();
+}
+?>
+
+<?php if ($shipmentId): ?>
+    <div class="shipment-success">
+        <p><?php echo __('Shipment has been successfully created. Shipment ID: %1', $shipmentId); ?></p>
+    </div>
+<?php else: ?>
+    <div class="shipment-error">
+        <p><?php echo __('Unable to create shipment for this order.'); ?></p>
+        <?php if (isset($errorMessage)): ?>
+            <p><?php echo __('Error: %1', $errorMessage); ?></p>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="product.info.main">
+            <block class="Magento\Catalog\Block\Product\View" name="meta_keywords" template="Kensium_File::meta_keywords.phtml" before="-" />
+        </referenceContainer>
+
+        <referenceContainer name="product.info.main">
+            <block class="Magento\Framework\View\Element\Template" name="url.info" template="Kensium_File::url_info.phtml" />
+        </referenceContainer>
+
+        <referenceContainer name="product.info.main">
+            <block class="Kensium\File\Block\CurrentCategory" name="current_category" template="Kensium_File::current_category.phtml" />
+        </referenceContainer>
+
+        <referenceContainer name="content">
+            <block class="Kensium\File\Block\CustomBlock" name="custom.block" template="Kensium_File::custom.phtml" />
+        </referenceContainer>
+    </body>
+</page>

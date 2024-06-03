@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="demo_info_data_source" xsi:type="string">Magento\Demo\Model\ResourceModel\Demo\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Magento\Demo\Model\ResourceModel\Demo\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">data_example</argument>
+            <argument name="resourceModel" xsi:type="string">Magento\Demo\Model\ResourceModel\Demo</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Checkout\Model\Cart">
+        <plugin name="DemoCart" type="Magento\Demo\Model\Cart" sortOrder="1" disabled="true" />
+    </type>
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="DemoName" type="Magento\Demo\Plugin\ProductNameModifier" sortOrder="1" disabled="false" />
+        <plugin name="DemoPrice" type="Magento\Demo\Plugin\ProductPriceModifier" sortOrder="1" disabled="true" />
+        <plugin name="DemoPriceProduct" type="Magento\Demo\Plugin\SpecificProductPriceModifier" sortOrder="1" disabled="false" />
+    </type>
+    <preference for="Magento\Catalog\Block\Product\View" type="Magento\Demo\Block\Catalog\Product\View"/>
+    <preference for="Magento\Catalog\Model\Product" type="Magento\Demo\Model\Catalog\Product" />
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="demoAddData" xsi:type="object">Magento\Demo\Console\Command\AddData</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Customer\Ui\Component\Listing\Columns">
+        <plugin name="add_custom_column" type="Magento\Demo\Plugin\CustomerGridPlugin" sortOrder="10"/>
+    </type>
+    <type name="Magento\Cms\Ui\Component\Listing\Column\PageActions">
+        <plugin name="add_custom_column" type="Magento\Demo\Plugin\PageActionsPlugin" sortOrder="10"/>
+    </type>
+</config>

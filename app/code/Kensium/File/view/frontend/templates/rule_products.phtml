@@ -1,0 +1,33 @@
+<?php
+$productIdsWithRules = $block->getCatalogPriceRuleProductIds();
+$productIds = array_keys($productIdsWithRules);
+
+$productCollection = $block->getProductCollectionByIds($productIds);
+?>
+
+<h1><b>Products with Active Catalog Price Rules</b></h1>
+
+<?php if (!empty($productIdsWithRules)): ?>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Rule ID</th>
+            <th>Rule Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($productCollection as $product): ?>
+            <tr>
+                <td><?php echo $product->getId(); ?></td>
+                <td><?php echo $product->getName(); ?></td>
+                <td><?php echo $productIdsWithRules[$product->getId()]['rule_id']; ?></td>
+                <td><?php echo $productIdsWithRules[$product->getId()]['rule_name']; ?></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php else: ?>
+    <p>No products found for active catalog price rules.</p>
+<?php endif; ?>

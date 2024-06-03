@@ -1,0 +1,44 @@
+<?php
+$collection = $block->getProductCollection();
+?>
+<h2 style="text-align: center;"><b>Most Viewed Products Collection</b></h2>
+<div class="products-grid">
+    <div class="product-items">
+        <?php foreach ($collection as $_product): ?>
+            <?php $imageUrl = $block->escapeHtml($block->getImageUrl($_product, 'product_base_image')); ?>
+            <div class="product-item">
+                <a href="<?= $block->escapeUrl($_product->getProductUrl()) ?>">
+                    <img src="<?= $imageUrl ?>" alt="<?= $block->escapeHtml($_product->getName()) ?>">
+                </a>
+                <div class="product-info">
+                    <h4 class="product-name"><?= $block->escapeHtml($_product->getName()) ?></h4>
+                    <div class="product-price">
+                        <h4>Price: $<?= $block->escapeHtml($_product->getPrice()) ?></h4>
+                    </div>
+                </div>
+                <div class="product-actions">
+                    <?php if ($_product->isSaleable()): ?>
+                        <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                        <form data-role="tocart-form"
+                              data-product-sku="<?= $block->escapeHtml($_product->getSku()) ?>"
+                              action="<?= $block->escapeUrl($postParams['action']) ?>"
+                              method="post"
+                        >
+                            <input type="hidden" name="product" value="<?= $block->escapeHtml($postParams['data']['product']) ?>">
+                            <input type="hidden" name="form_key" value="<?= $block->escapeHtml($block->getFormKey()) ?>">
+                            <button type="submit" title="<?= __('Add to Cart'); ?>" class="action tocart primary">
+                                <span><?= __('Add to Cart'); ?></span>
+                            </button>
+                        </form>
+                    <?php else: ?>
+                        <?php if ($_product->isAvailable()): ?>
+                            <div class="stock available"><span><?= __('In stock'); ?></span></div>
+                        <?php else: ?>
+                            <div class="stock unavailable"><span><?= __('Out of stock'); ?></span></div>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>

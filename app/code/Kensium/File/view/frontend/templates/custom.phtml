@@ -1,0 +1,11 @@
+<?php
+/** @var \YourVendor\YourModule\Block\CustomBlock $block */
+$customBlock = $block->getLayout()->getBlock('custom.block');
+if ($customBlock) {
+    // Your code to render the block or access its methods/data
+    echo $customBlock->getCustomData();
+} else {
+    echo "Custom block not found!";
+}
+
+?>

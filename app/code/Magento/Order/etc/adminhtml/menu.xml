@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magento_Order::OrderInformation" title="Order Information" module="Magento_Order" sortOrder="900" resource="Magento_Order::OrderInformation"/>
+        <add id="Magento_Order::OrderInfo" title="Order Info" module="Magento_Order" action="order/index/order" sortOrder="10" resource="Magento_Order::OrderInfo" parent="Magento_Order::OrderInformation"/>
+    </menu>
+</config>

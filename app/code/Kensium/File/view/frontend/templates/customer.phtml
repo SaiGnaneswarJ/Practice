@@ -1,0 +1,31 @@
+<h1 style="text-align: center"><b>Joining the Two Tables In Magento</b></h1>
+<?php
+/** @var \Kensium\File\Block\Customer $block */
+$customerCollection = $block->getCustomerCollection();
+?>
+<table class="data table">
+    <thead>
+    <tr>
+        <th>Customer ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile Number</th>
+        <th>Address</th>
+        <th>Order ID</th>
+        <th>Order Item</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($customerCollection as $customer): ?>
+        <tr>
+            <td><?php echo $customer->getCustId(); ?></td>
+            <td><?php echo $customer->getName(); ?></td>
+            <td><?php echo $customer->getEmail(); ?></td>
+            <td><?php echo $customer->getMobileno(); ?></td>
+            <td><?php echo $customer->getAddress(); ?></td>
+            <td><?php echo $customer->getOrdId(); ?></td>
+            <td><?php echo $customer->getOrderItem(); ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>

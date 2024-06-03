@@ -1,0 +1,23 @@
+<h1 style="text-align: center"><b>Getting the Product Custom options from Cart and Order</b></h1>
+<?php
+
+$orderId = 33;
+$items = $block->getOrderItems($orderId);
+
+echo '<h2>Order Id :'.$orderId.'</h2>';
+
+foreach ($items as $item) {
+    $options = $item->getProductOptions();
+    if (isset($options['options']) && !empty($options['options'])) {
+        foreach ($options['options'] as $option) {
+            echo '<h2>Title: ' . $option['label'] .'</h2>';
+            echo '<h2>Option ID: ' . $option['option_id'] .'</h2>';
+            echo '<h2>Option Type: ' . $option['option_type'] .'</h2>';
+            echo '<h2>Value: ' . $option['option_value'] . '</h2>'.'<br />';
+        }
+    }
+}
+
+?>
+
+

@@ -1,0 +1,123 @@
+<?php
+$data = $block->getAllData();
+$first_name = '';
+$last_name = '';
+$email = '';
+$mobile = '';
+$age = '';
+$gender = '';
+$address = '';
+
+if($data->getId())
+{
+    $first_name = $data->getFirstName();
+    $last_name = $data->getLastName();
+    $email = $data->getEmail();
+    $mobile = $data->getMobile();
+    $age = $data->getAge();
+    $gender = $data->getGender();
+    $address = $data->getAddress();
+}
+
+?>
+
+<html>
+<head>
+    <title>PERSON FORM</title>
+</head>
+<body>
+<div class="row">
+    <div class="col-md-8">
+        <form name="addData" method="post" id="addData" class="form"
+              action="<?php echo $this->getFormAction(); ?>"
+              data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+              data-mage-init='{"validation":{}}'>
+            <fieldset class="fieldset">
+                <legend class="legend"><b>PERSON DETAILS</b></legend>
+                <fieldset class="fieldset row">
+                    <?php
+                    if($data->getId())
+                    {
+                        ?>
+                        <input type="hidden" name="id" value="<?php echo $data->getId(); ?>">
+                        <?php
+                    }
+                    ?>
+                    <div class="fields col-md-6">
+                        <div class="field name required">
+                            <label class="label" for="title">First Name</label>
+                            <div class="control">
+                                <input style = "width:800px" name="first_name" id="first_name" title="Name" value="<?php echo $first_name;?>"
+                                class="input-text"
+                                       type="text"
+                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+                            </div>
+                        </div>
+                        <div class="field name required">
+                            <label class="label" for="title">Last Name</label>
+                            <div class="control">
+                                <input style = "width:800px" name="last_name" id="last_name" title="Name" value="<?php echo $last_name;?>" class="input-text"
+                                       type="text"
+                                       data-validate="{required:true, 'validate-alphanum-with-spaces':true}">
+                            </div>
+                        </div>
+                        <div class="field name required">
+                            <label class="label" for="title">Email</label>
+                            <div class="control">
+                                <input style = "width:800px" name="email" id="email" title="Email" value="<?php echo $email; ?>"
+                                       class="input-text" type="text"
+                                       data-validate="{required:true, 'validate-email':true}">
+                            </div>
+                        </div>
+                        <div class="field name required">
+                            <label class="label" for="title">Mobile No</label>
+                            <div class="control">
+                                <input style = "width:800px" name="mobile" id="mobile" title="Mobile" value="<?php echo $mobile;?>"
+                                       class="input-text"
+                                       type="text" data-validate="{required:true}">
+                            </div>
+                        </div>
+                        <div class="field name required">
+                            <label class="label" for="title" >Age</label>
+                            <div class="control">
+                                <input style = "width:800px" name="age" id="age" title="Age" class="input-text" value="<?php echo $age;?>"
+                                       type="text" data-validate="{required:true}">
+                            </div>
+                        </div>
+                        <div class="field name required">
+                            <label class="label">Gender</label>
+                            <div class="control">
+                                <div class="field choice" style="display: inline-block; margin-right: 60px;">
+                                    <input type="radio" name="gender" id="male" value="Male" <?php echo ($gender === "Male") ? 'checked="checked"' : ''; ?>>
+                                    <label class="label" for="male">Male</label>
+                                </div>
+                                <div class="field choice" style="display: inline-block; margin-right: 60px;">
+                                    <input type="radio" name="gender" id="female" value="Female" <?php echo ($gender === "Female") ? 'checked="checked"' : ''; ?>>
+                                    <label class="label" for="female">Female</label>
+                                </div>
+                                <div class="field choice" style="display: inline-block;" >
+                                    <input type="radio" name="gender" id="others" value="Others" <?php echo ($gender === "Others") ? 'checked="checked"' : ''; ?>>
+                                    <label class="label" for="others">Others</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field name required">
+                            <label class="label" for="title" >Address</label>
+                            <div class="control">
+                                <input style = "width:800px" name="address" id="address" title="Age" class="input-text" value="<?php echo $address?>"
+                                       type="text" data-validate="{required:true}">
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </fieldset>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button type="submit" class="action submit primary" title="Save" style = "width:500px;margin-left: 150px">SAVE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<?php
+/** @var \Kensium\File\Block\Images $block */
+
+
+$id = 6;
+$_product = $block->getProductById($id);
+$imageId = 'product_base_image';
+$width = 200;
+$height = 200;
+$resizedImageUrl = $block->resizeImage($_product, $imageId, $width, $height)->getUrl();
+
+
+?>
+<h1 style="text-align:center">Base Image Size</h1>
+<img src="<?php echo $resizedImageUrl; ?>" alt="<?php echo $_product->getName(); ?>" />
+<h3><?php echo $_product->getName(); ?> </h3>
+<h3><?php echo $_product->getSku(); ?> </h3>

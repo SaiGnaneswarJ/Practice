@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magento_Demo::Information" title="Information" module="Magento_Demo" sortOrder="900" resource="Magento_Demo::Information"/>
+        <add id="Magento_Demo::Info" title="Info" module="Magento_Demo" action="demo/index/index" sortOrder="10" resource="Magento_Demo::Info" parent="Magento_Demo::Information"/>
+    </menu>
+</config>

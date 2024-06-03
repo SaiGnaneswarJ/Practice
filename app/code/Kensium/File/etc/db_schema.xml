@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="data_example" resource="default" engine="innodb" comment="Data Example Table">
+        <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" nullable="true" default="CURRENT_TIMESTAMP" on_update="true" comment="Updated At"/>
+    </table>
+
+    <table name="Customer" resource="default" engine="innodb" comment="Customer Table">
+        <column xsi:type="int" name="cust_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Customer ID"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="255" comment="Customer Name"/>
+        <column xsi:type="varchar" name="email" nullable="false" length="255" comment="Customer Email"/>
+        <column xsi:type="varchar" name="mobileno" nullable="false" length="15" comment="Customer Mobile Number"/>
+        <column xsi:type="text" name="address" nullable="true" comment="Customer Address"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="cust_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="UNQ_CUSTOMER_EMAIL">
+            <column name="email"/>
+        </constraint>
+    </table>
+    <table name="Order" resource="default" engine="innodb" comment="Order Table">
+        <column xsi:type="int" name="ord_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Order ID"/>
+        <column xsi:type="int" name="cust_id" padding="10" unsigned="true" nullable="false" comment="Customer ID"/>
+        <column xsi:type="varchar" name="order_item" nullable="false" length="255" comment="Order Item"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="ord_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_ORDER_CUSTOMER_ID" table="Order" column="cust_id" referenceTable="Customer" referenceColumn="cust_id" onDelete="CASCADE"/>
+    </table>
+
+</schema>
+

@@ -1,0 +1,17 @@
+<div>
+    <h3 id="selectedOptionDisplay" style="display: none;">Seller : </h3>
+</div>
+
+<script>
+    // Retrieve the selected option value from session storage
+    var selectedOption = sessionStorage.getItem('selected_option');
+    console.log(selectedOption);
+
+    // Display the selected option value
+    if (selectedOption) {
+        document.getElementById('selectedOptionDisplay').textContent += selectedOption;
+        document.getElementById('selectedOptionDisplay').style.display = 'block';
+    } else {
+        console.log("No option selected");
+    }
+</script>
